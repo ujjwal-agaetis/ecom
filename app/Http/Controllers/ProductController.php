@@ -10,21 +10,18 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+     public function index()
     {
-        $products = Product::all();
-        //info($products);
-        return view('products.index', compact('products'));
-
-        
-    }
+    $products = Product::all();
+    return view('products.index', compact('products'));
+   }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('products.create');
+    return view('products.create');
 
     }
 
@@ -33,16 +30,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'slug' => 'required|unique:products',
-            'description' => 'required',
-            'status' => 'required',
-            'quantity' => 'required|integer',
-        ]);
-        //  dd($request->all());
-        product::create($validatedData);
-        return redirect()->route('products.index')->with('success','product created successfully.');
+    $validatedData = $request->validate([
+    'name' => 'required',
+    'slug' => 'required|unique:products',
+    'description' => 'required',
+    'status' => 'required',
+    'quantity' => 'required|integer',
+    ]);
+        
+    product::create($validatedData);
+    return redirect()->route('products.index')->with('success','product created successfully.');
        
     }
 
@@ -51,23 +48,17 @@ class ProductController extends Controller
      */
     public function show(Request $request)
     {
-        return view('products.show', compact('product'));
+    return view('products.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, $id)
-{
-    
-    
+    {
     $product = Product::find($request->id);
-    // dd($product);
-
     return view('products.edit', compact('product'));
-}
-
-
+    }
 
     /**
      * Update the specified resource in storage.
@@ -75,15 +66,14 @@ class ProductController extends Controller
     
         
     public function update(Request $request, $id)
-{
-    // dd($request->all());
+    {
     $request->validate([
-        'name' => 'required',
-        'slug' => 'required',
-        'description' => 'required',
-        'status' => 'required',
-        'quantity' => 'required|numeric',
-        'stock' => 'required',
+    'name' => 'required',
+    'slug' => 'required',
+    'description' => 'required',
+    'status' => 'required',
+    'quantity' => 'required|numeric',
+    'stock' => 'required',
     ]);
 
     $product = Product::findOrFail($id);
@@ -96,10 +86,7 @@ class ProductController extends Controller
     $product->save();
 
     return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-}
-
-        
-    
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -110,7 +97,6 @@ class ProductController extends Controller
     {
         info($request->all());
         $product = Product::find($request->id)->delete();
-
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
 
     }

@@ -56,12 +56,12 @@
     </div>
 
 
-    <button type="submit" name="submit" class="btn btn-primary">Edit</button>
-    
+<button type="submit" name="submit" class="btn btn-primary">Edit</button>
 
 </form>
 
-</div></button>
+</div>
+</button>
 </form>
 </div>
-  </body>
+</body>

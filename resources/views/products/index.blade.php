@@ -24,8 +24,7 @@
 
   <thead>
     <tr>
-    <!-- dd($request->all()); -->
-      <!-- <th scope="col">#</th> -->
+    
                <th>Name</th>
                 <th>Slug</th>
                 <th>Description</th>
@@ -33,15 +32,12 @@
                 <th>Quantity</th>
                 <th>Availability</th>
                 <th>Action</th>
-                <!-- <th>Edit</th> -->
-                
 
     </tr>
   </thead>
   <tbody>
   @foreach($products as $product)
     <tr>
-      <!-- <th scope="row">1</th> -->
                    <td>{{ $product->name }}</td>
                     <td>{{ $product->slug }}</td>
                     <td>{{ $product->description }}</td>
@@ -58,18 +54,12 @@
 </form>
 </td>
 
-<!-- <td>
-		<a href="{{ route('products.edit', ['id' => $product->id]) }}" name="edit" class="btn btn-primary">Edit</a>
-</td> -->
-
-      
-    </tr>
+</tr>
     @endforeach
   </tbody>
 </table>
-
 </div>
     
-  </body>
+</body>
 </html>
 

@@ -14,7 +14,8 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function ()
+{
     return view('welcome');
 });
 
@@ -25,6 +26,8 @@ Route::get('/products/create', [ProductController::class, 'create'])->name('prod
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 Route::post('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
 Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-// Route::put('/products/update', [ProductController::class, 'update'])->name('products.update');
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
 // Route::post('/products/show', [ProductController::class, 'store'])->name('products.show');
+ Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
