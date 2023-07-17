@@ -21,7 +21,8 @@
     <h2>Product Details</h2>
     
   <a href="{{ route('products.create') }}" name="create" class="btn btn-primary float-right">Add Product</a>
-
+  
+ 
   <thead>
     <tr>
     

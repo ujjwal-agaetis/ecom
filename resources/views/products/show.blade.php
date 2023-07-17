@@ -28,5 +28,5 @@
         </tr>
     </table>
 
-    <a href="{{ route('products.index') }}">Back to Product List</a>
+    <a href="{{ route('products.index') }}" name="show">Back to Product List</a>
 @endsection
