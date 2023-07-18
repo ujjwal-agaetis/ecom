@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->enum('status', ['active', 'inactive']);
             $table->integer('quantity')->unsigned();
+            $table->enum('stock', ['in-stock', 'sold-out']);
             $table->timestamps();
         });
     }

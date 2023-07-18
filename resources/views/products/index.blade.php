@@ -16,6 +16,19 @@
   <body>
 
   <div class="container">
+  @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{session('success')}}
+        </div>
+        @endif
+
+        @if(session()->has('failure'))
+        <div class="alert alert-danger">
+            {{session('failure')}}
+        </div>
+        @endif
+
+
  
   <table class="table">
     <h2>Product Details</h2>

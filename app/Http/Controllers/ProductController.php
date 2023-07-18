@@ -67,6 +67,7 @@ class ProductController extends Controller
         
     public function update(Request $request, $id)
     {
+    // info($product);
     $request->validate([
     'name' => 'required',
     'slug' => 'required',
@@ -76,14 +77,14 @@ class ProductController extends Controller
     'stock' => 'required',
     ]);
 
-    $product = Product::findOrFail($id);
-    $product->name = $request->input('name');
-    $product->slug = $request->input('slug');
-    $product->description = $request->input('description');
-    $product->status = $request->input('status');
-    $product->quantity = $request->input('quantity');
-    $product->stock = $request->input('stock');
-    $product->save();
+     $product = Product::findOrFail($id);
+    // $product->name = $request->input('name');
+    // $product->slug = $request->input('slug');
+    // $product->description = $request->input('description');
+    // $product->status = $request->input('status');
+    // $product->quantity = $request->input('quantity');
+    // $product->stock = $request->input('stock');
+    $product->update($request->all());
 
     return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
@@ -93,11 +94,28 @@ class ProductController extends Controller
      */
     
 
+    // public function destroy(Request $request )
+    // {
+        
+    //     info($request->all());
+    //     $product = Product::findOrFail($request->id);
+    //     $product = Product::find($request->id)->delete();
+    //     return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+
+    // }
+
     public function destroy(Request $request )
     {
-        info($request->all());
-        $product = Product::find($request->id)->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        // Check if the record exists
+        $record = Product::find($request->id);
+
+        if ($record) {
+            // Record exists, delete it
+            $record->delete();
+            return redirect()->route('products.index')->with('success', 'Record deleted successfully.');
+        } else {
+            return redirect()->route('products.index')->with('failure', 'Record not found.');
+        }
 
     }
 }
