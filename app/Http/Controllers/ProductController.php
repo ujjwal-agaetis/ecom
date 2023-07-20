@@ -30,16 +30,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-    $validatedData = $request->validate([
-    'name' => 'required',
-    'slug' => 'required|unique:products',
-    'description' => 'required',
-    'status' => 'required',
-    'quantity' => 'required|integer',
-    ]);
-        
-    product::create($validatedData);
-    return redirect()->route('products.index')->with('success','product created successfully.');
+        //dd($request);
+        // $validatedData = $request->validate([
+        // 'name' => 'required',
+        // 'slug' => 'required|unique:products',
+        // 'description' => 'required',
+        // 'status' => 'required',
+        // 'quantity' => 'required|integer',
+        // ]);
+            
+        product::create($request->all());
+        return redirect()->route('products.index')->with('success','product created successfully.');
        
     }
 
@@ -112,9 +113,11 @@ class ProductController extends Controller
         if ($record) {
             // Record exists, delete it
             $record->delete();
-            return redirect()->route('products.index')->with('success', 'Record deleted successfully.');
+            //return redirect()->route('products.index')->with('success', 'Record deleted successfully.');
+            return 'Record deleted successfully.';
         } else {
-            return redirect()->route('products.index')->with('failure', 'Record not found.');
+            //return redirect()->route('products.index')->with('failure', 'Record not found.');
+            return 'Record not found.';
         }
 
     }

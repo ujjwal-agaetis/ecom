@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Auth::routes();
 
 Route::get('/', function (){
@@ -22,11 +23,14 @@ Route::get('/', function (){
 Route::group(['middleware' => ['auth']], function () { 
 
     // Route::resource('products', ProductController::class);
-
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::post('/products/destroy', [ProductController::class, 'destroy']);
+    Route::post('/products/store', [ProductController::class, 'store']);
+    //Route::post('/products/destroy', 'ProductController@destroy');
+    
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::post('/products/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
+    //Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
     Route::post('/products/{product}', [ProductController::class, 'update'])->name('products.update');
