@@ -1,22 +1,10 @@
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    
-  </head>
-  <body>
-    <div class="container">
-        
-<h1>Edit Product</h1>
-
-<form action="{{ route('products.update', $product->id) }}" method="POST">
+@extends('layouts.app')
+@section('content')
+<div class="container">
+<form id="update_product_form">
     @csrf
-    <!-- @method('PUT') -->
-
+   
+    <input type="hidden" name="id" value="{{$product->id}}">
     <div class="form-group">
         <label for="">Name</label>
         <input type="text" class="form-control" name="name" id="name" value="{{$product->name}}" placeholder="">
@@ -55,14 +43,11 @@
         </select>
 
     </div>
+</br>
 
-
-<button type="submit" name="submit" class="btn btn-primary">Edit</button>
+<button type="submit" name="submit" class="btn btn-primary edit_product">Edit</button>
 
 </form>
 
 </div>
-</button>
-</form>
-</div>
-</body>
+@endsection

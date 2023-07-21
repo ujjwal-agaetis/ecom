@@ -47,6 +47,7 @@
       <input type="number" class="form-control" name="quantity" id="quantity" value="">
 
     </div>
+</br>
 
     <button type="submit" name="submit" class="btn btn-primary create_product">Create</button>
 

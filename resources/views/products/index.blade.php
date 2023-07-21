@@ -57,7 +57,7 @@
             <!-- @method('DELETE') -->
             <button type="submit" name="submit" class="btn btn-danger delete_btn" data-id="{{$product->id}}">Delete</button>
 
-            <a href="{{ route('products.edit', ['id' => $product->id]) }}" name="edit" class="btn btn-primary">Edit</a>
+            <a href="{{ route('products.edit', ['id' => $product->id]) }}" name="edit" class="btn btn-primary edit_btn" data-id="{{$product->id}}">Edit</a>
           {{--</form>--}}
         </td>
 

@@ -7,14 +7,15 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Ecom') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
+
 </head>
 <body>
     <div id="app">
@@ -77,12 +78,89 @@
         </main>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="{{asset('jquery.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <script>
         $(document).ready(function(){
 
+            // Update action
+            $('#update_product_form').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 3
+                    },
+
+                    slug: {
+                        required: true,
+                        
+                    },
+
+                    description: {
+                        required: true,
+                        
+                    },
+
+                    rules: {
+                    status:{
+                        required: true,
+                        
+                    }
+                },
+
+
+                    quantity: {
+                        required: true,
+                        
+                    },
+                    // Add more rules for other form fields as needed
+                },
+                messages: {
+                    name: {
+                        required: "Please enter your name",
+                        minlength: "Name must be at least 3 characters"
+                    },
+                    slug: {
+                        required: "Please enter your Slug Number",
+                        
+                    },
+
+                    description: {
+                        required: "Please enter your Description Details",
+                        description: "Please enter a Description Details"
+                    },
+
+                    status: {
+                        required: "Please enter your Status ",
+                        
+                    },
+
+                    quantity: {
+                        required: "Please enter your product quantity",
+                        
+                    },
+                    // Add more custom error messages for other form fields
+                },
+                submitHandler: function(form) {
+                    // This function will be called when the form is valid
+                    
+                    $.ajax({
+                        url: "/products/update",
+                        type: 'post',
+                        data: $('#update_product_form').serialize(),
+                        success: function(response) {
+                            // Handle the response
+                            //console.log(response);
+                            alert('Product updated successfully!');
+                            window.location.replace('/home');
+                        }
+                    });
+                }
+            });
+
+
+            // Create action
             $('#create_product_form').validate({
                     rules: {
                         name: {
@@ -143,7 +221,7 @@
                     submitHandler: function(form) {
                         // This function will be called when the form is valid
                         //form.submit(); // Submit the form
-                        form_data = $('#create_product_form').serialize();
+                        //form_data = $('#create_product_form').serialize();
 
                         $.ajax({
                             url: '/products/store',
@@ -153,12 +231,12 @@
                                 // Handle the response
                                 //console.log(response);
                                 alert('Product created successfully!');
-                                location.reload('/products');
+                                window.location.replace('/home');
                             }
                         });
                     }
                 });
-                
+
             // Delete action
             $('.delete_btn').on('click', function(){
                 var id = $(this).data('id');
@@ -175,16 +253,6 @@
                         location.reload();
                     }
                 });
-            })
-
-            // Create action
-           
-            $('.2create_product').on('click', function(e){
-                //e.preventDefault();
-                //$(this).html('Sending..');
-
-                
-                
             })
         })
     </script>

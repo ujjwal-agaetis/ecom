@@ -21,20 +21,11 @@ Route::get('/', function (){
 });
 
 Route::group(['middleware' => ['auth']], function () { 
-
-    // Route::resource('products', ProductController::class);
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
-    //Route::post('/products/destroy', 'ProductController@destroy');
-    
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    //Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::post('/products/update', [ProductController::class, 'update'])->name('products.update');
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-
-    Route::post('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-    // Route::post('/products/show', [ProductController::class, 'store'])->name('products.show');
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\ProductController::class, 'index']);
 });
