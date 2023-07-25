@@ -14,7 +14,14 @@ class Product extends Model
         'status',
         'quantity',
         'stock',
+        'category_id',
         // Add more columns as needed
+        
     ];
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product','id');
+    }
     
 }
