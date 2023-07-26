@@ -36,6 +36,33 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 1]) }}">Clothes</a></li>
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 2]) }}">Electronics</a></li>
+            <!-- <li><hr class="dropdown-divider"></li> -->
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 3]) }}">Grocerys</a></li>
+          </ul>
+        </li>
+      
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      
+    </form>
+  </div>
+</nav>
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))

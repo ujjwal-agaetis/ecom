@@ -22,7 +22,7 @@ Route::get('/', function (){
 
 Route::group(['middleware' => ['auth']], function () { 
 
-    Route::get('/category/{id}', [ProductController::class, 'get_product_list']);
+    Route::get('/category/{id}', [ProductController::class, 'get_product_list'])->name('category.show');
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
