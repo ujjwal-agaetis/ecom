@@ -32,7 +32,7 @@
     <thead>
       <tr>
 
-        <th>Name</th>
+        <th> Name</th>
         <th>Slug</th>
         <th>Description</th>
         <th>Status</th>

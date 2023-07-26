@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -99,6 +100,8 @@ class ProductController extends Controller
 
     public function get_product_list($id)
     {
-        return Product::with('products')->get();
+        //  return Product::where('category_id',$id)->get();
+          $products=category::where('id',$id)->with('products')->get();
+         return view('products.product_list',compact('products'));
     }
 }
