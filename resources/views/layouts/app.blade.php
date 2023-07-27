@@ -36,17 +36,23 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                    
     <ul class="navbar-nav mr-auto">
     <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Category
           </a>
+          
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 1]) }}">Clothes</a></li>
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 2]) }}">Electronics</a></li>
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 3]) }}">Grocerys</a></li>
+          @foreach($categories as $cat)
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->category_name}}</a></li>
+
+            @endforeach
+            <!-- <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 2]) }}">Electronics</a></li>
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 3]) }}">Grocerys</a></li> -->
           </ul>
         </li>
+        
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))

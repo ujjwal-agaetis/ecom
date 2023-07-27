@@ -13,8 +13,10 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $category = Category::all();
+        //  dd($category->toarray());
         $products = Product::all();
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products','category'));
     }
 
     /**
@@ -22,6 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $products = Product::all();
         return view('products.create');
     }
 
