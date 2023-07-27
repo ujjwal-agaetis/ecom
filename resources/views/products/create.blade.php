@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container">
   @section('content')
   <h1>Create Product</h1>
@@ -48,7 +49,26 @@
 
     </div>
 
-    
+    <div class="form-group">
+      <label for="category_id">Category:</label>
+      <select name="category_id" class="form-control" id="category_id">
+        <option value="">Select Category</option>  
+      @foreach($categories as $cat)
+        <option value="{{$cat->id}}">{{$cat->categories_name}}</option>
+        
+        @endforeach
+      </select>
+
+    </div>
+
+    <div class="form-group">
+        <label for="stock">Availability:</label>
+        <select name="stock" class="form-control" id="stock">
+            <option value="in-stock">In Stock</option>
+            <option value="sold-out">Sold Out</option>
+        </select>
+
+    </div>
 </br>
 
     <button type="submit" name="submit" class="btn btn-primary create_product">Create</button>

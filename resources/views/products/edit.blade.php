@@ -36,6 +36,17 @@
     </div>
 
     <div class="form-group">
+      <label for="category_id">Category:</label>
+      <select name="category_id" class="form-control" id="category_id">
+        <option value="">Select Category</option>  
+      @foreach($categories as $cat)
+        <option value="{{$cat->id}}" {{ $cat->id === $product->category_id ? 'selected' : '' }}>{{$cat->categories_name}}</option>
+        
+        @endforeach
+      </select>
+
+
+    <div class="form-group">
         <label for="stock">Availability:</label>
         <select name="stock" class="form-control" id="stock">
             <option value="in-stock"{{ $product->stock === 'in-stock' ? 'selected' : '' }}>In Stock</option>

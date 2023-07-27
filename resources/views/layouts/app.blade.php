@@ -45,14 +45,11 @@
           
           <ul class="dropdown-menu">
           @foreach($categories as $cat)
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->category_name}}</a></li>
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->categories_name}}</a></li>
 
             @endforeach
-            <!-- <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 2]) }}">Electronics</a></li>
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => 3]) }}">Grocerys</a></li> -->
           </ul>
         </li>
-        
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -125,6 +122,11 @@
                         required: true,
                         
                     },
+
+                    category_id: {
+                        required: true,
+                        
+                    },
                     // Add more rules for other form fields as needed
                 },
                 messages: {
@@ -152,6 +154,10 @@
                         
                     },
 
+                    category_id: {
+                        required: "Please select Category",
+                        
+                    },
                     // Add more custom error messages for other form fields
                 },
                 submitHandler: function(form) {

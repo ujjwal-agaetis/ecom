@@ -14,7 +14,6 @@ class ProductController extends Controller
     public function index()
     {
         $category = Category::all();
-        //  dd($category->toarray());
         $products = Product::all();
         return view('products.index', compact('products','category'));
     }
@@ -33,7 +32,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        product::create($request->all());
+      $validatedData= $request->validate([
+        'name' => 'required',
+        'slug' => 'required',
+        'description' => 'required',
+        'status' => 'required',
+        'quantity' => 'required|numeric',
+        'category_id' => 'required',
+        'stock' => 'required',
+        
+        ]);
+        product::create($validatedData);
         return redirect()->route('products.index')->with('success', 'product created successfully.');
     }
 
@@ -61,20 +70,17 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-        // info($product);
-        // $request->validate([
-        // 'name' => 'required',
-        // 'slug' => 'required',
-        // 'description' => 'required',
-        // 'status' => 'required',
-        // 'quantity' => 'required|numeric',
-        // 'stock' => 'required',
-        // ]);
-        //dd($request->id);
-
+       $validatedData= $request->validate([
+        'name' => 'required',
+        'slug' => 'required',
+        'description' => 'required',
+        'status' => 'required',
+        'quantity' => 'required|numeric',
+        'category_id' => 'required',
+        'stock' => 'required',
+        ]);
         $product = Product::findOrFail($request->id);
-        $product->update($request->all());
-
+        $product->update($validatedData);
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
@@ -87,7 +93,6 @@ class ProductController extends Controller
     {
         // Check if the record exists
         $record = Product::find($request->id);
-
         if ($record) {
             // Record exists, delete it
             $record->delete();
