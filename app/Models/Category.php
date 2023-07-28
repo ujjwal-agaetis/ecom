@@ -9,6 +9,12 @@ class Category extends Model
 {
 
     use HasFactory;
+    
+    protected $fillable = [
+        'category_name',
+        // Add more columns as needed
+        
+    ];
 
     public function products()
     {
