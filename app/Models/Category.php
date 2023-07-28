@@ -9,15 +9,15 @@ class Category extends Model
 {
 
     use HasFactory;
-    
+
     protected $fillable = [
         'category_name',
         // Add more columns as needed
         
     ];
 
-    public function products()
+    public function Category()
     {
-        return $this->hasMany(Product::class,'category_id');
+        return $this->hasMany(category::class,'category_id');
     }
 }

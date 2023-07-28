@@ -45,7 +45,7 @@
           
           <ul class="dropdown-menu">
           @foreach($categories as $cat)
-            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->categories_name}}</a></li>
+            <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->category_name}}</a></li>
 
             @endforeach
           </ul>
@@ -176,6 +176,7 @@
                     });
                 }
             });
+            
 
 
             // Create action
@@ -255,6 +256,41 @@
                     }
                 });
 
+
+                // Create action for category
+            $('#create_category_form').validate({
+                    rules: {
+                        category_name: {
+                            required: true,
+                            
+                        },
+
+                        // Add more rules for other form fields as needed
+                    },
+                    messages: {
+                       category_name: {
+                            required: "Please enter your name",
+                            
+                        },
+
+                        // Add more custom error messages for other form fields
+                    },
+                    submitHandler: function(form) {
+                        $.ajax({
+                            url: '/category/store',
+                            type: 'post',
+                            data: $('#create_category_form').serialize(),
+                            success: function(response) {
+                                // Handle the response
+                                //console.log(response);
+                                alert('category created successfully!');
+                                window.location.replace('/home');
+                            }
+                        });
+                    }
+                });
+                
+
             // Delete action
             $('.delete_btn').on('click', function(){
                 var id = $(this).data('id');
@@ -273,6 +309,10 @@
                 });
             })
         })
+
+        
     </script>
+
+    
 </body>
 </html>
