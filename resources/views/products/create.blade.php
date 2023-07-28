@@ -52,28 +52,110 @@
     <div class="form-group">
       <label for="category_id">Category:</label>
       <select name="category_id" class="form-control" id="category_id">
-        <option value="">Select Category</option>  
-      @foreach($categories as $cat)
-        <option value="{{$cat->id}}">{{$cat->categories_name}}</option>
-        
+        <option value="">Select Category</option>
+        @foreach($categories as $cat)
+        <option value="{{$cat->id}}">{{$cat->category_name}}</option>
+
         @endforeach
       </select>
 
     </div>
 
     <div class="form-group">
-        <label for="stock">Availability:</label>
-        <select name="stock" class="form-control" id="stock">
-            <option value="in-stock">In Stock</option>
-            <option value="sold-out">Sold Out</option>
-        </select>
+      <label for="stock">Availability:</label>
+      <select name="stock" class="form-control" id="stock">
+        <option value="in-stock">In Stock</option>
+        <option value="sold-out">Sold Out</option>
+      </select>
 
     </div>
-</br>
+    </br>
 
     <button type="submit" name="submit" class="btn btn-primary create_product">Create</button>
 
   </form>
 
 </div>
+
+<script type="module">
+  $(document).ready(function() {
+    // Create action
+    $('#create_product_form').validate({
+      rules: {
+        name: {
+          required: true,
+          minlength: 3
+        },
+
+        slug: {
+          required: true,
+
+        },
+
+        description: {
+          required: true,
+
+        },
+
+        rules: {
+          status: {
+            required: true,
+
+          }
+        },
+
+
+        quantity: {
+          required: true,
+
+        },
+        // Add more rules for other form fields as needed
+      },
+      messages: {
+        name: {
+          required: "Please enter your name",
+          minlength: "Name must be at least 3 characters"
+        },
+        slug: {
+          required: "Please enter your Slug Number",
+
+        },
+
+        description: {
+          required: "Please enter your Description Details",
+          description: "Please enter a Description Details"
+        },
+
+        status: {
+          required: "Please enter your Status ",
+
+        },
+
+        quantity: {
+          required: "Please enter your product quantity",
+
+        },
+        // Add more custom error messages for other form fields
+      },
+      submitHandler: function(form) {
+        // This function will be called when the form is valid
+        //form.submit(); // Submit the form
+        //form_data = $('#create_product_form').serialize();
+
+        $.ajax({
+          url: '/products/store',
+          type: 'post',
+          data: $('#create_product_form').serialize(),
+          success: function(response) {
+            // Handle the response
+            //console.log(response);
+            alert('Product created successfully!');
+            window.location.replace('/home');
+          }
+        });
+      }
+    });
+  })
+</script>
+
 @endsection

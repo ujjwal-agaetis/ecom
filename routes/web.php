@@ -35,7 +35,11 @@ Route::group(['middleware' => ['auth']], function () {
     
 
     // Category Routes
+    Route::post('/category/destroy', [CategoryController::class, 'destroy']);
+    Route::post('/category/store', [CategoryController::class, 'store']);
     Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
-    Route::get('/category/{id}', [ProductController::class, 'get_product_list'])->name('category.show');
-
+    Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
+    Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::get('/category/{id}', [CategoryController::class, 'get_product_list'])->name('category.show');   
 });

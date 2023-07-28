@@ -53,11 +53,11 @@
         <td>{{ $product->stock }}</td>
         <td>
           {{--<form action="{{ route('products.destroy', ['id' => $product->id]) }}" method="post">
-            @csrf --}}
-            <!-- @method('DELETE') -->
-            <button type="submit" name="submit" class="btn btn-danger delete_btn" data-id="{{$product->id}}">Delete</button>
+          @csrf --}}
+          <!-- @method('DELETE') -->
+          <button type="submit" name="submit" class="btn btn-danger delete_btn" data-id="{{$product->id}}">Delete</button>
 
-            <a href="{{ route('products.edit', ['id' => $product->id]) }}" name="edit" class="btn btn-primary edit_btn" data-id="{{$product->id}}">Edit</a>
+          <a href="{{ route('products.edit', ['id' => $product->id]) }}" name="edit" class="btn btn-primary edit_btn" data-id="{{$product->id}}">Edit</a>
           {{--</form>--}}
         </td>
 
@@ -66,4 +66,31 @@
     </tbody>
   </table>
 </div>
+
+<script type="module">
+  $(document).ready(function() {
+
+    // Delete action
+    $('.delete_btn').on('click', function() {
+      var id = $(this).data('id');
+      //alert(id);
+
+      $.ajax({
+        url: '/products/destroy',
+        type: 'post',
+        data: {
+          "_token": "{{ csrf_token() }}",
+          "id": id
+        },
+        success: function(response) {
+          // Handle the response
+          //console.log(response);
+          alert(response);
+          location.reload();
+        }
+      });
+    })
+
+  })
+</script>
 @endsection

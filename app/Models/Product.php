@@ -19,9 +19,4 @@ class Product extends Model
         
     ];
 
-    public function products()
-    {
-        return $this->hasMany('App\Models\Product','id');
-    }
-    
 }
