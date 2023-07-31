@@ -6,6 +6,7 @@
     <form id="edit_category_form">
         @csrf
         <div class="form-group">
+            <input type="hidden" name="id" value="{{$category->id}}">
             <label for="name">Category Name</label>
             <input type="text" name="category_name" id="category_name" class="form-control" value="{{$category->category_name}}" required>
         </div>

@@ -13,8 +13,6 @@ class CategoryController extends Controller
 
         $categories = Category::all();
         return view('category.index', ['categories' => $categories]);
-        // return view('products.index', compact('products','category'));
-
     }
 
     public function create()
@@ -33,7 +31,6 @@ class CategoryController extends Controller
     {
         // Validate the request data and store the new category in the database
         $validatedData = $request->validate([
-
             'category_name' => 'required',
 
         ]);
@@ -47,7 +44,6 @@ class CategoryController extends Controller
         $category = category::find($request->id);
         return view('category.edit', ['category' => $category]);
     }
-
 
     public function update(Request $request)
     {
@@ -66,7 +62,7 @@ class CategoryController extends Controller
         $record = category::find($request->id);
         if ($record) {
             // Record exists, delete it
-            $record->delete();
+        $record->delete();
 
             return 'Category deleted successfully.';
         } else {
@@ -77,8 +73,7 @@ class CategoryController extends Controller
 
     public function get_product_list($id)
     {
-        // return Product::where('category_id',$id)->get();
-        $products=category::where('id',$id)->with('products')->first();
-        return view('products.product_list',compact('products'));
+        $products=category::where('id',$id)->with('product_list')->first();
+        return view('category.product_list',compact('products'));
     }
 }

@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,17 +12,12 @@ use App\Http\Controllers\CategoryController;;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Auth::routes();
-
 Route::get('/', function (){
     return view('welcome');
 });
-
-Route::group(['middleware' => ['auth']], function () { 
-
+Route::group(['middleware' => ['auth']], function () {
     // Product Routes
-    
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -32,8 +25,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::get('/home', [App\Http\Controllers\ProductController::class, 'index']);
-    
-
     // Category Routes
     Route::post('/category/destroy', [CategoryController::class, 'destroy']);
     Route::post('/category/store', [CategoryController::class, 'store']);
@@ -41,5 +32,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('/category/{id}', [CategoryController::class, 'get_product_list'])->name('category.show');   
+    Route::get('/productlist/{id}', [CategoryController::class, 'get_product_list'])->name('category.show');  
 });
