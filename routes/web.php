@@ -32,5 +32,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('/productlist/{id}', [CategoryController::class, 'get_product_list'])->name('category.show');  
+    Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show');  
 });
+
+
+
+
+
+

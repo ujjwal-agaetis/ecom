@@ -10,7 +10,6 @@ class CategoryController extends Controller
 {
     public function index()
     {
-
         $categories = Category::all();
         return view('category.index', ['categories' => $categories]);
     }
@@ -18,7 +17,7 @@ class CategoryController extends Controller
     public function create()
     {
         // Show a form to create a new product category
-        $category = category::all();
+        $category = Category::all();
         return view('category.create');
     }
 
@@ -41,7 +40,7 @@ class CategoryController extends Controller
     public function edit(Request $request, $id)
     {
         // Show a form to edit the specified product category
-        $category = category::find($request->id);
+        $category = Category::find($request->id);
         return view('category.edit', ['category' => $category]);
     }
 
@@ -51,7 +50,7 @@ class CategoryController extends Controller
             'category_name' => 'required',
 
         ]);
-        $category = category::findOrFail($request->id);
+        $category = Category::findOrFail($request->id);
         $category->update($validatedData);
         return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
@@ -59,7 +58,7 @@ class CategoryController extends Controller
     public function destroy(Request $request)
     {
         // Check if the record exists
-        $record = category::find($request->id);
+        $record = Category::find($request->id);
         if ($record) {
             // Record exists, delete it
         $record->delete();
@@ -71,9 +70,9 @@ class CategoryController extends Controller
         }
     }
 
-    public function get_product_list($id)
+    public function get_product_list(Category $category)
     {
-        $products=category::where('id',$id)->with('product_list')->first();
+        $products = $category->load('product_list');
         return view('category.product_list',compact('products'));
     }
 }

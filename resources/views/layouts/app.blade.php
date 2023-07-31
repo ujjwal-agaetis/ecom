@@ -41,7 +41,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     @foreach($categories as $cat)
-                                    <li><a class="dropdown-item" href="{{ route('category.show', ['id' => $cat->id]) }}">{{$cat->category_name}}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('category.show', ['category' => $cat->id]) }}">{{$cat->category_name}}</a></li>
                                     @endforeach
                                 </ul>
                             </li>
