@@ -11,13 +11,13 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_name',
+        'name',
         // Add more columns as needed
         
     ];
 
     public function product_list()
     {
-        return $this->hasMany('App\Models\Product','category_id');
+        return $this->hasMany(Product::class,'category_id');
     }
 }

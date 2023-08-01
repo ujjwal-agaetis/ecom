@@ -13,8 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-        $products = Product::all();
+        
+        $products = Product::with('category')->get();
+        //    dd($products->toArray());
         return view('products.index', compact('products','category'));
     }
 
@@ -42,7 +43,7 @@ class ProductController extends Controller
         'stock' => 'required',
         
         ]);
-        product::create($validatedData);
+        Product::create($validatedData);
         return redirect()->route('products.index')->with('success', 'product created successfully.');
     }
 

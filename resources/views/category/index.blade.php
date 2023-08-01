@@ -25,27 +25,24 @@
     @if(Auth::check())
     <form action="{{ route('logout') }}" method="POST">
       @csrf
-      <!-- <button type="submit" class="btn btn-danger float-right">Logout</button> -->
     </form>
     @endif
 
     <thead>
       <tr>
-
         <th>Category Name</th>
-
 
       </tr>
     </thead>
     <tbody>
       @foreach($categories as $category)
       <tr>
-        <td>{{ $category->category_name }}</td>
+        <td>{{ $category->name }}</td>
 
         <td>
           {{--<form action="{{ route('category.destroy', ['id' => $category->id]) }}" method="post">
           @csrf --}}
-          <!-- @method('DELETE') -->
+          
           <button type="submit" name="submit" class="btn btn-danger cat_delete_btn" data-id="{{$category->id}}">Delete</button>
 
           <a href="{{ route('category.edit', ['id' => $category->id]) }}" name="edit" class="btn btn-primary edit_btn" data-id="{{$category->id}}">Edit</a>
@@ -64,7 +61,6 @@
     // Delete action for Category
     $('.cat_delete_btn').on('click', function() {
       var id = $(this).data('id');
-      //alert(id);
 
       $.ajax({
         url: '/category/destroy',

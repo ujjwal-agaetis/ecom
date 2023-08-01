@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         // Show a form to create a new product category
         $category = Category::all();
-        return view('category.create');
+        return view('category.create'); 
     }
 
     public function show($id)
@@ -30,10 +30,10 @@ class CategoryController extends Controller
     {
         // Validate the request data and store the new category in the database
         $validatedData = $request->validate([
-            'category_name' => 'required',
+            'name' => 'required',
 
         ]);
-        category::create($validatedData);
+        Category::create($validatedData);
         return redirect()->route('category.index')->with('success', 'Category created successfully!');
     }
 
@@ -47,7 +47,7 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $validatedData = $request->validate([
-            'category_name' => 'required',
+            'name' => 'required',
 
         ]);
         $category = Category::findOrFail($request->id);
@@ -76,3 +76,4 @@ class CategoryController extends Controller
         return view('category.product_list',compact('products'));
     }
 }
+

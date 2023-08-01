@@ -8,7 +8,7 @@
         <div class="form-group">
             <input type="hidden" name="id" value="{{$category->id}}">
             <label for="name">Category Name</label>
-            <input type="text" name="category_name" id="category_name" class="form-control" value="{{$category->category_name}}" required>
+            <input type="text" name="name" id="name" class="form-control" value="{{$category->name}}" required>
         </div>
         <!-- Add any other fields you want to include in the form -->
 
@@ -21,7 +21,7 @@
         // Edit action for category
         $('#edit_category_form').validate({
             rules: {
-                category_name: {
+                name: {
                     required: true,
 
                 },
@@ -29,7 +29,7 @@
                 // Add more rules for other form fields as needed
             },
             messages: {
-                category_name: {
+                name: {
                     required: "Please enter Category name",
 
                 },
