@@ -14,7 +14,6 @@ class ProductController extends Controller
     public function index()
     { 
         $products = Product::with('category')->get();
-        //    dd($products->toArray());
         return view('products.index', compact('products'));
     }
 
@@ -24,7 +23,8 @@ class ProductController extends Controller
     public function create()
     {
         $products = Product::all();
-        return view('products.create');
+        $categories= category::all();
+        return view('products.create', compact('products','categories'));
     }
 
     /**
@@ -40,7 +40,6 @@ class ProductController extends Controller
         'quantity' => 'required|numeric',
         'category_id' => 'required',
         'stock' => 'required',
-        
         ]);
         Product::create($validatedData);
         return redirect()->route('products.index')->with('success', 'product created successfully.');
@@ -60,7 +59,8 @@ class ProductController extends Controller
     public function edit(Request $request, $id)
     {
         $product = Product::find($request->id);
-        return view('products.edit', compact('product'));
+        $categories= category::all();
+        return view('products.edit', compact('product','categories'));
     }
 
     /**
