@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
+use App\Models\Product;
+use App\Models\Category;
 class HomeController extends Controller
 {
     /**
@@ -15,7 +14,6 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +21,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products = Product::all();
+        $categories = Category::all();
+        return view('home', compact('products', 'categories'));
     }
 }

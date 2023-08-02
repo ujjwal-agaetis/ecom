@@ -1,7 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +14,8 @@ use App\Http\Controllers\CategoryController;;
 |
 */
 Auth::routes();
-Route::get('/', function (){
-    return view('welcome');
-});
-Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', [HomeController::class, 'index']);
+    Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
@@ -24,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/products/update', [ProductController::class, 'update'])->name('products.update');
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-    Route::get('/home', [App\Http\Controllers\ProductController::class, 'index']);
+    Route::get('/home', [ProductController::class, 'index']);
     // Category Routes
     Route::post('/category/destroy', [CategoryController::class, 'destroy']);
     Route::post('/category/store', [CategoryController::class, 'store']);
@@ -32,11 +31,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show');  
+    Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show'); 
 });
-
-
-
-
-
-
