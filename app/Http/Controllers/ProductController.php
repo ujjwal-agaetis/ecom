@@ -12,11 +12,10 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        
+    { 
         $products = Product::with('category')->get();
         //    dd($products->toArray());
-        return view('products.index', compact('products','category'));
+        return view('products.index', compact('products'));
     }
 
     /**

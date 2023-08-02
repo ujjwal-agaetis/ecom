@@ -30,19 +30,17 @@
                     <ul class="navbar-nav ms-auto">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('category.index') }}">{{ __('Manage Category') }}</a>
+                                <a class="nav-link" href=""></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('products.index') }}">{{ __('Manage Product') }}</a>
+                                <a class="nav-link" href=""></a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Category
                                 </a>
                                 <ul class="dropdown-menu">
-                                    @foreach($categories as $cat)
-                                    <li><a class="dropdown-item" href="{{ route('category.show', ['category' => $cat->id]) }}">{{$cat->name}}</a></li>
-                                    @endforeach
+                                    
                                 </ul>
                             </li>
                             <!-- Authentication Links -->
