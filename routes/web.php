@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,4 +33,8 @@ Auth::routes();
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show'); 
+   
+     // Cart Routes
+    Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
+
 });
