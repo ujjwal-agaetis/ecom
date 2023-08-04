@@ -28,14 +28,14 @@
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <ul class="navbar-nav mr-auto">
+                        <!-- <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('category.index') }}">{{ __('Manage Category') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('products.index') }}">{{ __('Manage Product') }}</a>
                             </li>
-                                </ul>
+                                </ul> -->
                             </li>
                             <!-- Authentication Links -->
                             @guest

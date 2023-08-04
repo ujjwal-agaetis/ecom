@@ -21,11 +21,6 @@ class CategoryController extends Controller
         return view('category.create'); 
     }
 
-    public function show($id)
-    {
-        // Your code to show a specific item
-    }
-
     public function store(Request $request)
     {
         // Validate the request data and store the new category in the database

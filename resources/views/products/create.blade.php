@@ -45,7 +45,7 @@
 
     <div class="form-group">
       <label for="quantity">Quantity:</label>
-      <input type="number" class="form-control" name="quantity" id="quantity" value="">
+      <input type="number" class="form-control" name="quantity" id="quantity" value="" min="0" max="10000" >
 
     </div>
 

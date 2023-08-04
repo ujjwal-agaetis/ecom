@@ -36,5 +36,7 @@ Auth::routes();
    
      // Cart Routes
     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart']);
+    Route::get('cart_add/', [CartController::class, 'cart_add']);
 
 });
