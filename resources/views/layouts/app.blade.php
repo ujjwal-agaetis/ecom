@@ -28,15 +28,11 @@
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('category.index') }}">{{ __('Manage Category') }}</a>
+
+                    <li class="nav-item">
+                                <a class="nav-link" href="{{ route('cart.index') }}">Cart <span class="badge text-bg-primary">{{Cart::count();}}</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('products.index') }}">{{ __('Manage Product') }}</a>
-                            </li>
-                                </ul> -->
-                            </li>
+                            
                             <!-- Authentication Links -->
                             @guest
                             @if (Route::has('login'))

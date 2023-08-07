@@ -171,8 +171,8 @@
         <form class="needs-validation" novalidate>
           <div class="row g-3">
             <div class="col-sm-6">
-              <label for="firstName" class="form-label">First name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <label for="Name" class="form-label">First name</label>
+              <input type="text" class="form-control" id="Name" placeholder="abc" value="" required>
               <div class="invalid-feedback">
                 Valid first name is required.
               </div>
@@ -223,6 +223,7 @@
               <select class="form-select" id="country" required>
                 <option value="">Choose...</option>
                 <option>United States</option>
+                <option>India</option>
               </select>
               <div class="invalid-feedback">
                 Please select a valid country.
@@ -234,6 +235,7 @@
               <select class="form-select" id="state" required>
                 <option value="">Choose...</option>
                 <option>California</option>
+                <option>Maharashtra</option>
               </select>
               <div class="invalid-feedback">
                 Please provide a valid state.

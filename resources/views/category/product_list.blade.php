@@ -14,10 +14,15 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->description }}</p>
+                        <p class="card-text">Available Quantity <span class="badge text-bg-primary">{{$product->quantity}}</span></p>
                         <button class="btn btn-primary text-end add_to_cart" data-id="{{$product->id}}">Add to cart</button>
-                        Qty <input type="number" name="quantity" style="width:45px;" value="1">
+                        @if (!empty($product->quantity))
+                            Qty <input type="number" name="quantity" style="width:45px;" value="1">
+                        @else
+                            <span class="badge text-bg-danger">Out Of Stock</span>
+                        @endif
                         <input type="hidden" name="product_name" value="{{$product->name}}">
-                        <input type="hidden" name="product_price" value="456">
+                        <input type="hidden" name="product_price" value="857">
                         <input type="hidden" name="product_id" value="{{$product->id}}">
                     </div>
                 </form>
