@@ -33,10 +33,12 @@ Auth::routes();
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show'); 
-   
      // Cart Routes
+    Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
     Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart']);
     Route::get('cart_add/', [CartController::class, 'cart_add']);
+    
+    
 
 });

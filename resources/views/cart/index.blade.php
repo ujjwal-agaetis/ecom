@@ -267,15 +267,15 @@
 
           <div class="my-3">
             <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+              <input id="credit" name="" type="radio" class="form-check-input" checked required>
               <label class="form-check-label" for="credit">Credit card</label>
             </div>
             <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+              <input id="debit" name="" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="debit">Debit card</label>
             </div>
             <div class="form-check">
-              <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+              <input id="paypal" name="" type="radio" class="form-check-input" required>
               <label class="form-check-label" for="paypal">PayPal</label>
             </div>
           </div>
@@ -317,7 +317,7 @@
 
           <hr class="my-4">
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <button class="w-100 btn btn-primary btn-lg  place_order" type="submit">Place Order</button>
         </form>
       </div>
     </div>
@@ -332,5 +332,30 @@
     </ul>
   </footer>
 </div>
+
+<script type="module">
+  $(document).ready(function() {
+    // place order action
+    $('.place_order').on('click', function(e) {
+        e.preventDefault();
+       var id = $(this).data('id');
+      $.ajax({
+        url: '/cart/place_order',
+        type: 'post',
+        data: {
+          "_token": "{{ csrf_token() }}",
+          "id": id
+        },
+        success: function(response) {
+          // Handle the response
+          //console.log(response);
+          alert('Order placed successfully!');
+          location.reload();
+        }
+      });
+    })
+
+  })
+</script>
 
 @endsection
