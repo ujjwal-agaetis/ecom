@@ -28,7 +28,7 @@ class CartController extends Controller
         dd(Cart::content()); // get cart content
     }
 
-    public function place_order()
+    public function place_order(Request $request)
     {
         $cart_data1 = Cart::content();
         foreach ($cart_data1 as $key => $value) {

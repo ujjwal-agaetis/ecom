@@ -15,8 +15,9 @@ use App\Http\Controllers\CartController;
 |
 */
 Auth::routes();
-    Route::get('/', [HomeController::class, 'index']);
-    Route::group(['middleware' => ['auth']], function () {
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show');
+Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
@@ -32,13 +33,9 @@ Auth::routes();
     Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show'); 
      // Cart Routes
     Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
     Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart']);
     Route::get('cart_add/', [CartController::class, 'cart_add']);
-    
-    
-
 });
