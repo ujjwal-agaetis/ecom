@@ -40,7 +40,11 @@ class ProductController extends Controller
         'quantity' => 'required|numeric',
         'category_id' => 'required',
         'stock' => 'required',
+        'price' => 'required|numeric',
+        
         ]);
+        // dd($validatedData);
+        // die();
         Product::create($validatedData);
         return redirect()->route('products.index')->with('success', 'product created successfully.');
     }
@@ -78,6 +82,8 @@ class ProductController extends Controller
         'quantity' => 'required|numeric',
         'category_id' => 'required',
         'stock' => 'required',
+        'price' => 'required|numeric',
+        
         ]);
         $product = Product::findOrFail($request->id);
         $product->update($validatedData);

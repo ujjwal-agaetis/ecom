@@ -6,7 +6,7 @@
     </div>
     <div class="row">
         @foreach($categories as $category)
-            <p><a class="link-opacity-100-hover" href="{{ route('category.show', ['category' => $category->id]) }}">{{ $category->name }}</a></p>
+            <p><a class="link-opacity-100-hover" href="{{ route('category.show', ['category' => $category->id,]) }}">{{ $category->name }}</a></p>
         @endforeach
     </div>
 </div>

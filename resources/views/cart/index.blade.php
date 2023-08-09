@@ -176,7 +176,7 @@
           @csrf;
           <div class="row g-3">
             <div class="col-sm-6">
-              <label for="Name" class="form-label">First name</label>
+              <label for="firstname" class="form-label">First name</label>
               <input type="text" class="form-control" name="firstname" id="firstname" placeholder="abc" value="" required>
               <div class="invalid-feedback">
                 Valid first name is required.
@@ -185,7 +185,7 @@
 
             <div class="col-sm-6">
               <label for="lastName" class="form-label">Last name</label>
-              <input type="text" class="form-control" name="lastname" id="lastname" placeholder="" value="" required>
+              <input type="text" class="form-control" name="lastname" id="lastname" placeholder="xyz" value="" required>
               <div class="invalid-feedback">
                 Valid last name is required.
               </div>
@@ -200,7 +200,7 @@
             </div>
 
             <div class="col-12">
-              <label for="address" class="form-label">Address</label>
+              <label for="address1" class="form-label">Address</label>
               <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St" required>
               <div class="invalid-feedback">
                 Please enter your shipping address.

@@ -16,7 +16,7 @@
   @endif
 
 
-  <form id="create_product_form">
+  <form id="create_product_form" enctype="multipart/form-data">
     @csrf
 
     <div class="form-group">
@@ -40,13 +40,11 @@
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
       </select>
-
     </div>
 
     <div class="form-group">
       <label for="quantity">Quantity:</label>
-      <input type="number" class="form-control" name="quantity" id="quantity" value="" min="0" max="10000" >
-
+      <input type="number" class="form-control" name="quantity" id="quantity" value="" min="0" max="10000">
     </div>
 
     <div class="form-group">
@@ -55,10 +53,8 @@
         <option value="">Select Category</option>
         @foreach($categories as $cat)
         <option value="{{$cat->id}}">{{$cat->name}}</option>
-
         @endforeach
       </select>
-
     </div>
 
     <div class="form-group">
@@ -67,7 +63,16 @@
         <option value="in-stock">In Stock</option>
         <option value="sold-out">Sold Out</option>
       </select>
+    </div>
 
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" class="form-control" name="price" id="price" value="" >
+    </div>
+
+    <div class="form-group">
+      <label for="img">Image:</label>
+      <input type="file" class="form-control" name="img" id="img" value="">
     </div>
     </br>
 
@@ -104,11 +109,16 @@
           }
         },
 
-
         quantity: {
           required: true,
 
         },
+
+        price: {
+          required: true,
+
+        },
+        
         // Add more rules for other form fields as needed
       },
       messages: {
@@ -135,6 +145,12 @@
           required: "Please enter your product quantity",
 
         },
+
+        price: {
+          required: "Please enter your product price",
+
+        },
+
         // Add more custom error messages for other form fields
       },
       submitHandler: function(form) {

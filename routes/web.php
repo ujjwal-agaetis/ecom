@@ -16,7 +16,7 @@ use App\Http\Controllers\CartController;
 */
 Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/productlist/{category}', [CategoryController::class, 'get_product_list'])->name('category.show');
+Route::get('/category/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
 Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);

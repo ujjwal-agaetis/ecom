@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive']);
             $table->integer('quantity')->unsigned();
             $table->enum('stock', ['in-stock', 'sold-out']);
+            $table->integer('price');
+            $table->text('img');
             $table->timestamps();
 
             // Add the foreign key column
