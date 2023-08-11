@@ -7,21 +7,45 @@ class CartController extends Controller
 {
     public function index()
     {
+        // $cart = session()->get('cart', []);
+        //  dd($cart);
         $cart_data = Cart::content();
         return view('cart/index', compact('cart_data'));
     }
 
-    public function add_product_to_cart(Request $request)
+    public function add_product_to_cart($id)
     {
-        $productId = $request->input('product_id');
-        $productName = $request->input('product_name');
-        $productPrice = $request->input('product_price');
-        $quantity = $request->input('quantity');
-        Cart::add($productId, $productName, $quantity, $productPrice);
-        Cart::restore('ecom');
-        return true;
+        $product = Product::findOrFail($id);
+        $cart = session()->get('cart', []);
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+            
+        } else {
+            $cart[$id] = [
+                "name" => $product->name,
+                "quantity" => 1,
+                "price" => $product->price,
+                // "image" => $product->image
+            ];
+           
+        }
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
-
+    
+    public function remove(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            // dd($cart);
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
+    }
+    
     public function cart_add()
     {  
         echo 'Cart Count: '.Cart::count(); // get total cart count

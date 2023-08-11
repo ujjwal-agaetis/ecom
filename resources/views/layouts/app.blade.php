@@ -32,7 +32,7 @@
                     <li class="nav-item">
                                 <a class="nav-link" href="{{ route('cart.index') }}">Cart <span class="badge text-bg-primary">{{Cart::count();}}</span></a>
                             </li>
-                            
+
                             <!-- Authentication Links -->
                             @guest
                             @if (Route::has('login'))
@@ -66,6 +66,15 @@
             </div>
         </nav>
         <main class="py-4">
+
+        <div class="container">
+  
+    @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div> 
+    @endif
+</div>
             @yield('content')
         </main>
     </div>
