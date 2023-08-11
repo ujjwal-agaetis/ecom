@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <table id="cart" class="table table-hover table-condensed">
     <thead>
         <tr>
@@ -25,13 +24,13 @@
                             </div>
                         </div>
                     </td>
-                    <td data-th="Price">${{ $details['price'] }}</td>
+                    <td data-th="Price">650</td>
                     <td data-th="Quantity">
-                        <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity update-cart" />
+                        <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity update-cart "/>
                     </td>
-                    <td data-th="Subtotal" class="text-center">${{ $details['price'] * $details['quantity'] }}</td>
+                    <td data-th="Subtotal" class="text-center">32000₹</td>
                     <td class="actions" data-th="">
-                        <button class="btn btn-danger btn-sm remove-from-cart"><i class="fa fa-trash-o"></i></button>
+                        <button class="btn btn-danger btn-sm remove-from-cart"><i class="fa fa-trash-o"></i>Remove</button>
                     </td>
                 </tr>
             @endforeach
@@ -39,7 +38,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5" class="text-right"><h3><strong>Total ${{ $total }}</strong></h3></td>
+            <td colspan="5" class="text-right"><h3><strong>Total: 32000₹</strong></h3></td>
         </tr>
         <tr>
             <td colspan="5" class="text-right">
@@ -49,23 +48,17 @@
         </tr>
     </tfoot>
 </table>
-@endsection
-  
-  
-@section('scripts')
-<script type="text/javascript">
-  
+<script type="module">
+  $(document).ready(function() {
     $(".remove-from-cart").click(function (e) {
         e.preventDefault();
-  
         var ele = $(this);
-  
         if(confirm("Are you sure want to remove?")) {
             $.ajax({
-                url: '{{ route('remove.from.cart') }}',
+                url: "{{ route('remove.from.cart')}}",
                 method: "DELETE",
                 data: {
-                    _token: '{{ csrf_token() }}', 
+                    _token: '{{ csrf_token() }}',
                     id: ele.parents("tr").attr("data-id")
                 },
                 success: function (response) {
@@ -74,6 +67,25 @@
             });
         }
     });
+  });
+
+  $(".update-cart").change(function (e) {
+        e.preventDefault();
   
+        var ele = $(this);
+  
+        $.ajax({
+            url: "{{ route('update.cart') }}",
+            method: "patch",
+            data: {
+                _token: '{{ csrf_token() }}', 
+                id: ele.parents("tr").attr("data-id"), 
+                quantity: ele.parents("tr").find(".quantity").val()
+            },
+            success: function (response) {
+               window.location.reload();
+            }
+        });
+    });
 </script>
 @endsection
