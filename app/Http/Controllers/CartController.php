@@ -9,9 +9,27 @@ class CartController extends Controller
     {
         // $cart = session()->get('cart', []);
         //  dd($cart);
-        $cart_data = Cart::content();
-        return view('cart/index', compact('cart_data'));
+        // $cart_data = Cart::content();
+        return view('cart/index');
     }
+
+    // public function create()
+    // {
+    //     $cart = Cart::all();  
+    // }
+    
+    // public function store(Request $request)
+    // {
+    //   $data= $request->validate([
+    //     'name' => 'required',
+    //     'quantity' => 'required',
+    //     'price' => 'required', 
+    //     ]);
+    //     Cart::create($data);
+    //     return redirect()->route('cart.index')->with('success', 'Cart created successfully.');
+    // }
+
+    
 
     public function add_product_to_cart($id)
     {
@@ -25,9 +43,7 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => 1,
                 "price" => $product->price,
-                // "image" => $product->image
             ];
-           
         }
         session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
@@ -55,39 +71,30 @@ class CartController extends Controller
             session()->flash('success', 'Cart updated successfully');
         }
     }
-    
-    public function cart_add()
-    {  
-        echo 'Cart Count: '.Cart::count(); // get total cart count
-        dd(Cart::content()); // get cart content
-    }
+
 
     public function place_order(Request $request)
     {
-        $cart_data1 = Cart::content();
-        foreach ($cart_data1 as $key => $value) {
-            
-            $id=$value->id;
-            $row_id=$value->rowId;
-            $qty=$value->qty;
+        $cart = session()->get('cart', []);
+        //  dd($cart);
+        foreach ($cart as $key => $value) {
+             $name=$value['name'];
+             $quantity=$value['quantity'];
+             $price=$value['price'];
 
-            // Get product quantity
-            $product = Product::where('id', '=', $id)->get();
-            $current_qty = $product[0]->quantity;
-            $new_qty= $current_qty - $qty;
-
-            // Update product quantity
-            $product = Product::find($product[0]->id);
-            $product->quantity = $new_qty;
-            $product->save();
-
-            // Remove cart item
-            Cart::remove($row_id);
+             $data = [
+                "$name" => $value['name'],
+                "$quantity" =>$value['quantity'] ,
+                "$price" => $value['price'],
+            ];
+             
+            }
+            return true;   
         }
-         return true;
-    }
 
     }
+
+   
 
 
 

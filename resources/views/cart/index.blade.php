@@ -43,7 +43,7 @@
         <tr>
             <td colspan="5" class="text-right">
                 <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-                <button class="btn btn-success">Checkout</button>
+                <button class="btn btn-success place_order" type="submit">Place Order</button>
             </td>
         </tr>
     </tfoot>
@@ -87,5 +87,25 @@
             }
         });
     });
+
+    $('.place_order').on('click', function() {
+      var id = $(this).data('id');
+      $.ajax({
+        url: '/cart/place_order',
+        type: 'post',
+        data: {
+          "_token": "{{ csrf_token() }}",
+          "id": id
+        },
+        success: function(response) {
+          // Handle the response
+          //console.log(response);
+          alert(response);
+          location.reload();
+        }
+      });
+    })
+
 </script>
+
 @endsection
