@@ -65,7 +65,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function get_product_list(Category $category)
+    public function get_product_list(category $category)
     {
         $products = $category->load('product_list');
         return view('category.product_list',compact('products'));

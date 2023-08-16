@@ -16,7 +16,7 @@ use App\Http\Controllers\CartController;
 */
 Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/category/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
+Route::get('/categories/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
 Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth']], function () {
      // Cart Routes
     Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
-    Route::get('add_product_to_cart/{id}', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
+    Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
     Route::patch('update-cart', [CartController::class, 'update'])->name('update.cart');
     Route::get('cart_add/', [CartController::class, 'cart_add']);
     Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove.from.cart');

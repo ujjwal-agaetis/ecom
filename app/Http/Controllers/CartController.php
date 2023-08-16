@@ -11,8 +11,10 @@ class CartController extends Controller
         //  dd($cart);
         return view('cart/index');
     }
-    public function add_product_to_cart($id)
+    public function add_product_to_cart(Request $request)
     {
+        //dd($request->toArray());
+        $id = $request->product_id;
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
         if(isset($cart[$id])) {
@@ -20,7 +22,7 @@ class CartController extends Controller
         } else {
             $cart[$id] = [
                 "name" => $product->name,
-                "quantity" => 1,
+                "quantity" => $request->quantity,
                 "price" => $product->price,
             ];
         }
@@ -51,16 +53,23 @@ class CartController extends Controller
     public function place_order(Request $request)
     {
         $cart = session()->get('cart', []);
-        //  dd($cart);
+        // $data1 = [
+        //     "order_id" => '1',
+        //     "item_name" => 'test2',
+        //     "quantity" =>'30' ,
+        //     "price" => '599',
+        // ];
+        // Cart::create($data1);
+        
         foreach ($cart as $key => $value) {
              $name=$value['name'];
              $quantity=$value['quantity'];
              $price=$value['price'];
              $data = [
                 "order_id" => '1',
-                "item_name" => $value['name'],
-                "quantity" =>$value['quantity'] ,
-                "price" => $value['price'],
+                "item_name" => $name,
+                "quantity" =>$quantity,
+                "price" => $price,
             ];
             Cart::create($data);
         }

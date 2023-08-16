@@ -20,14 +20,13 @@ return new class extends Migration
             $table->integer('quantity')->unsigned();
             $table->enum('stock', ['in-stock', 'sold-out']);
             $table->integer('price');
-            $table->text('img');
-            $table->timestamps();
-
+            $table->text('img')->nullable();
             // Add the foreign key column
             $table->unsignedBigInteger('category_id');
 
             // Define the foreign key constraint
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->timestamps();
         });
     }
 
