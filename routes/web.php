@@ -41,3 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('cart_add/', [CartController::class, 'cart_add']);
     Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove.from.cart');
 });
+    // Route::get('get-all-session', function(){
+    // $session =session()->all();
+    // dd($session);
+    // });

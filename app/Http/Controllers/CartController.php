@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
@@ -11,14 +12,27 @@ class CartController extends Controller
         //  dd($cart);
         return view('cart/index');
     }
-    public function add_product_to_cart(Request $request)
+
+    public function storeInSession()
     {
-        //dd($request->toArray());
+    // Store data in the session
+    Session::put('key', 'value');
+
+    // You can store more data
+    Session::put('user_id', 123);
+    return redirect()->back();
+    }
+
+    public function add_product_to_cart(Request $request)
+    { 
+        // $session_id = Session::getId();
+        $session_id = $request->session()->getId(); // Get the session ID
+        // dd($session_id);
         $id = $request->product_id;
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
         if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $cart[$id]['quantity']++; 
         } else {
             $cart[$id] = [
                 "name" => $product->name,
@@ -53,14 +67,6 @@ class CartController extends Controller
     public function place_order(Request $request)
     {
         $cart = session()->get('cart', []);
-        // $data1 = [
-        //     "order_id" => '1',
-        //     "item_name" => 'test2',
-        //     "quantity" =>'30' ,
-        //     "price" => '599',
-        // ];
-        // Cart::create($data1);
-        
         foreach ($cart as $key => $value) {
              $name=$value['name'];
              $quantity=$value['quantity'];
