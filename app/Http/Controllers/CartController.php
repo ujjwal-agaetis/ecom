@@ -8,9 +8,10 @@ class CartController extends Controller
 {
     public function index()
     {
-        // $cart = session()->get('cart', []);
-        //  dd($cart);
-        return view('cart/index');
+       
+        $cart = Cart::all();
+        //   dd($cart->toArray());
+        return view('cart/index', ['cart' => $cart]);
     }
 
     public function storeInSession()
@@ -24,15 +25,21 @@ class CartController extends Controller
     }
 
     public function add_product_to_cart(Request $request)
-    { 
-        // $session_id = Session::getId();
-        $session_id = $request->session()->getId(); // Get the session ID
-        // dd($session_id);
+    {
         $id = $request->product_id;
         $product = Product::findOrFail($id);
+        $session_id = $request->session()->getId(); // Get the session ID
+        $data = [
+            "product_id" => $product->id,
+            "item_name" => $product->name, 
+            "quantity" =>$request->quantity,
+            "price" => $product->price,
+            "session_id" => $session_id
+        ];
+        Cart::create($data);
         $cart = session()->get('cart', []);
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++; 
+        if(isset($cart[$id])) {+
+            $cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
                 "name" => $product->name,
@@ -43,6 +50,7 @@ class CartController extends Controller
         session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
+
     public function remove(Request $request)
     {
         if($request->id) {
@@ -52,15 +60,23 @@ class CartController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
+            $record = Cart::find($request->id);
+            $record->delete();
             session()->flash('success', 'Product removed successfully');
         }
     }
+
     public function update(Request $request)
     {
         if($request->id && $request->quantity){
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
+            $update_data = [
+                "quantity" => $request->quantity
+            ];
+            $cart = Cart::findOrFail($request->id);
+            $cart->update($update_data);
             session()->flash('success', 'Cart updated successfully');
         }
     }

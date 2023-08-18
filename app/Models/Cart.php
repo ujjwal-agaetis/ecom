@@ -10,7 +10,8 @@ class Cart extends Model
         'item_name',
         'quantity',
         'price',
-        'order_id',
+        'product_id',
+        'session_id',
         // Add more columns as needed
     ];
 }

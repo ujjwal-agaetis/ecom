@@ -34,14 +34,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
      // Cart Routes
-    Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
+    Route::get('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
     Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
     Route::patch('update-cart', [CartController::class, 'update'])->name('update.cart');
     Route::get('cart_add/', [CartController::class, 'cart_add']);
     Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove.from.cart');
 });
-    // Route::get('get-all-session', function(){
-    // $session =session()->all();
-    // dd($session);
-    // });
+    

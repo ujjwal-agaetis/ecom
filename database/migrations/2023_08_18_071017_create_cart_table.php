@@ -16,14 +16,8 @@ return new class extends Migration
             $table->string('item_name');
             $table->integer('quantity')->unsigned();
             $table->integer('price');
+            $table->integer('product_id');
             $table->string('session_id');
-            
-            // // Add the foreign key column 
-            // $table->unsignedBigInteger('session_id');
-
-            // // Define the foreign key constraint
-            // $table->foreign('session_id')->references('id')->on('sessions');
-            
             $table->timestamps();
 
         });
