@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('product_id');
             $table->string('session_id');
+            // Define the foreign key constraint
+             $table->foreignId('user_id')->nullable()->index();
             $table->timestamps();
 
         });

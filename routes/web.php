@@ -14,10 +14,10 @@ use App\Http\Controllers\CartController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::routes();
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/categories/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
-Route::group(['middleware' => ['auth']], function () {
+    Auth::routes(); 
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/categories/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
+    Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);

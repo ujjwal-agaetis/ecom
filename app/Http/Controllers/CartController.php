@@ -1,24 +1,25 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 class CartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-       
-        $cart = Cart::all();
-        //   dd($cart->toArray());
-        return view('cart/index', ['cart' => $cart]);
+        $session_id = $request->session()->getId();
+        // dd($session_id);
+        $filteredResults = Cart::where('session_id',$session_id)->get();
+        // $cart = Cart::all();
+        return view('cart/index', ['cart' => $filteredResults]);
     }
 
     public function storeInSession()
     {
     // Store data in the session
     Session::put('key', 'value');
-
     // You can store more data
     Session::put('user_id', 123);
     return redirect()->back();
@@ -26,15 +27,18 @@ class CartController extends Controller
 
     public function add_product_to_cart(Request $request)
     {
+        $userId = Auth::id();
         $id = $request->product_id;
         $product = Product::findOrFail($id);
         $session_id = $request->session()->getId(); // Get the session ID
+        //  dd($session_id);
         $data = [
             "product_id" => $product->id,
             "item_name" => $product->name, 
             "quantity" =>$request->quantity,
             "price" => $product->price,
-            "session_id" => $session_id
+            "session_id" => $session_id,
+            "user_id" => $userId
         ];
         Cart::create($data);
         $cart = session()->get('cart', []);
@@ -55,7 +59,6 @@ class CartController extends Controller
     {
         if($request->id) {
             $cart = session()->get('cart');
-            // dd($cart);
             if(isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);

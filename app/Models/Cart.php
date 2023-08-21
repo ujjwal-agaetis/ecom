@@ -12,6 +12,7 @@ class Cart extends Model
         'price',
         'product_id',
         'session_id',
+        'user_id',
         // Add more columns as needed
     ];
 }
