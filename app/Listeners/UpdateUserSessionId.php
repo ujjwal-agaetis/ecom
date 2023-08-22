@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Listeners;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Auth\Events\Login;
 use App\Models\Cart;
 class UpdateUserSessionId
