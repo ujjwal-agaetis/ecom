@@ -21,21 +21,16 @@ class CartController extends Controller
         return view('cart/index', ['cart' => $filteredResults]);
     }
 
-    public function storeInSession()
-    {
-    // Store data in the session
-    Session::put('key', 'value');
-    // You can store more data
-    Session::put('user_id', 123);
-    return redirect()->back();
-    }
 
     public function add_product_to_cart(Request $request)
     {
+        $session_id = $request->session()->getId();  // Get the session ID
+        session(['prev_session_id'=>$session_id]);
+        $session_id=session('prev_session_id');
+        // dd($session_id);
         $userId = Auth::id();
         $id = $request->product_id;
         $product = Product::findOrFail($id);
-        $session_id = $request->session()->getId(); // Get the session ID
         $data = [
             "product_id" => $product->id,
             "item_name" => $product->name, 
