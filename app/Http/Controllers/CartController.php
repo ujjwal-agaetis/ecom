@@ -9,20 +9,15 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        //$session_id = session()->getId();
+        $session_id = session()->getId();
         $userId = Auth::id();
         // info(json_encode($request->session()));
-
-        // if ($userId) {
-        //     // cond1
-        // }
-
-        // if (is_null($userId)) {
-        //     // cond2
-        // }
-
-        $filteredResults = Cart::where('user_id', $userId)->get();
-        
+        if (Auth::check()) {
+            // The user is logged in...
+            $filteredResults = Cart::where('user_id', $userId)->get();
+        }else{
+            $filteredResults = Cart::where('session_id', $session_id)->get();
+        }
         return view('cart/index', ['cart' => $filteredResults]);
     }
 
