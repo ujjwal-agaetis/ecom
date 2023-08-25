@@ -19,7 +19,7 @@ use App\Http\Controllers\CartController;
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/categories/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
      // Cart Routes             
-     Route::get('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
+     Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
      Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
      Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
      Route::patch('update-cart', [CartController::class, 'update'])->name('update.cart');

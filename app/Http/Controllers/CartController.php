@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Order;
 class CartController extends Controller
 {
     public function index(Request $request)
@@ -58,7 +59,8 @@ class CartController extends Controller
     {
         if($request->id) {
             $cart = session()->get('cart');
-            if(isset($cart[$request->id])) {
+            if(isset($cart[$request->id]))
+            {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
@@ -82,25 +84,27 @@ class CartController extends Controller
             session()->flash('success', 'Cart updated successfully');
         }
     }
+
     public function place_order(Request $request)
     {
-        $cart = session()->get('cart', []);
-        foreach ($cart as $key => $value) {
-             $name=$value['name'];
-             $quantity=$value['quantity'];
-             $price=$value['price'];
-             $data = [
-                "order_id" => '1',
-                "item_name" => $name,
-                "quantity" =>$quantity,
-                "price" => $price,
-            ];
-            Cart::create($data);
-        }
-        // Unset session data
-        session()->forget('cart');
-        return true;  
+        // dd($request->toarray());
+        $userId = Auth::id();
+        $data = [
+            "firstname" => $request->firstname,
+            "lastname" => $request->lastname,
+            "email" => $request->email, 
+            "address1" =>$request->address1,
+            "address2" => $request->address2,
+            // "city" =>$request->city,
+            "state" => $request->state,
+            "zip" => $request->zip,
+            "user_id" => $userId
+        ];
+          Order::create($data);
+        return true;
+       
     }
+    
 }
 
 

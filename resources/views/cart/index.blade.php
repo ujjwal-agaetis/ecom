@@ -32,7 +32,7 @@
                 <td data-th="Quantity">
                     <input type="number" value="{{ $carts['quantity'] }}" class="form-control quantity update-cart " />
                 </td>
-                <td data-th="Subtotal" class="text-center"></td>
+                <td data-th="Subtotal" class="text-center">{{$subtotal}} ₹</td>
                 <td class="actions" data-th="">
                     <button class="btn btn-danger btn-sm remove-from-cart"><i class="fa fa-trash-o"></i>Remove</button>
                 </td>
@@ -42,15 +42,15 @@
         <tfoot>
             <tr>
                 <td colspan="5" class="text-right">
-                    <h3><strong></strong></h3>
+                    <h3><strong>{{$total}} ₹</strong></h3>
                 </td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td colspan="5" class="text-right">
                     <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
                     <button class="btn btn-success place_order" type="submit">Place Order</button>
                 </td>
-            </tr>
+            </tr> -->
         </tfoot>
     </table>
 </div>
@@ -58,41 +58,49 @@
     <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
         Billing Details
     </div>
-    <form class="row g-3" id="billing_form_data">
+    <form id="place_order_form">
         @csrf
         <div class="col-md-6">
-            <label for="inputEmail4" class="form-label">First Name</label>
-            <input type="email" class="form-control" id="inputEmail4">
+            <label for="firstname" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="firstname" id="firstname">
         </div>
         <div class="col-md-6">
-            <label for="inputPassword4" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="inputPassword4">
-        </div>
-        <div class="col-12">
-            <label for="inputAddress" class="form-label">Address 1</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-        <div class="col-12">
-            <label for="inputAddress2" class="form-label">Address 2</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="lastname" id="lastname">
         </div>
         <div class="col-md-6">
-            <label for="inputCity" class="form-label">City</label>
-            <input type="text" class="form-control" id="inputCity">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email">
+        </div>
+        <div class="col-12">
+            <label for="address1" class="form-label">Address 1</label>
+            <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St">
+        </div>
+        <div class="col-12">
+            <label for="address2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city">
         </div>
         <div class="col-md-4">
-            <label for="inputState" class="form-label">State</label>
-            <select id="inputState" class="form-select">
+            <label for="state" class="form-label">State</label>
+            <select id="state" class="form-select" name="state">
                 <option selected>Choose...</option>
                 <option value="Maharashtra">Maharashtra</option>
             </select>
         </div>
         <div class="col-md-2">
-            <label for="inputZip" class="form-label">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
+            <label for="zip" class="form-label">Zip</label>
+            <input type="text" class="form-control" name="zip" id="zip">
         </div>
     </form>
     <hr class="border border-primary border-3 opacity-75">
+    <div class="float-end" style="margin-bottom: 20px;">
+        <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+        <button class="btn btn-success place_order" type="submit">Place Order</button>
+    </div>
 </div>
 <script type="module">
     $(document).ready(function() {
@@ -131,16 +139,18 @@
             }
         });
     });
-    $('.place_order').on('click', function() {
+    $('.place_order').on('click', function(e) {
+        e.preventDefault();
         var id = $(this).data('id');
         $.ajax({
             url: '/cart/place_order',
             type: 'post',
-            data: {
-                "_token": "{{ csrf_token() }}",
-                //   "id": id
-                id: ele.parents("tr").attr("data-id"),
-            },
+            // data: {
+            //     "_token": "{{ csrf_token() }}",
+            //     //    "id": id,
+            //     id: ele.parents("tr").attr("data-id"),
+            // },
+            data: $('#place_order_form').serialize(),
             success: function(response) {
                 // Handle the response
                 //console.log(response);
