@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('address1');
             $table->string('address2');
-            $table->string('country');
+            $table->string('city');
             $table->string('state');
             $table->integer('zip');
+            $table->timestamps();
         });
     }
     /**
@@ -30,6 +31,7 @@ return new class extends Migration
         Schema::dropIfExists('order');
     }
 };
+
 
 
 
