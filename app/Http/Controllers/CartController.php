@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Order_items;
 class CartController extends Controller
 {
     public function index(Request $request)
@@ -28,7 +29,6 @@ class CartController extends Controller
         $session_id = $request->session()->getId();  // Get the session ID
         session(['prev_session_id'=>$session_id]);
         $session_id=session('prev_session_id');
-        // dd($session_id);
         $userId = Auth::id();
         $id = $request->product_id;
         $product = Product::findOrFail($id);
@@ -87,7 +87,6 @@ class CartController extends Controller
 
     public function place_order(Request $request)
     {
-        // dd($request->toarray());
         $userId = Auth::id();
         $data = [
             "firstname" => $request->firstname,
@@ -100,7 +99,24 @@ class CartController extends Controller
             "zip" => $request->zip,
             "user_id" => $userId
         ];
-          Order::create($data);
+           $order_data= Order::create($data);
+           $order_id= $order_data->id;
+
+          //cart data movement
+          $cart_items = cart::where('user_id', $userId)->get();
+        //    dd($cart_items->toarray());
+        foreach($cart_items as $key => $cart_item){
+            $order_items = [
+                "product_id" => $cart_item->product_id,
+                "item_name" => $cart_item->item_name,
+                "quantity" =>$cart_item->quantity,
+                "price" => $cart_item->price,
+                "order_id" => $order_id,
+            ];
+            Order_items::create($order_items);
+            //delete entry from cart table
+            $cart_item->delete();
+        }
         return true;
        
     }
