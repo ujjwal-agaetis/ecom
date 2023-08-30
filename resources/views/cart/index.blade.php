@@ -45,20 +45,14 @@
                     <h3><strong>{{$total}} ₹</strong></h3>
                 </td>
             </tr>
-            <!-- <tr>
-                <td colspan="5" class="text-right">
-                    <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-                    <button class="btn btn-success place_order" type="submit">Place Order</button>
-                </td>
-            </tr> -->
         </tfoot>
     </table>
 </div>
+<form id="place_order_form">
 <div class="container">
     <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
         Billing Details
     </div>
-    <form id="place_order_form">
         @csrf
         <div class="col-md-6">
             <label for="firstname" class="form-label">First Name</label>
@@ -95,34 +89,97 @@
             <label for="zip" class="form-label">Zip</label>
             <input type="text" class="form-control" name="zip" id="zip">
         </div>
-    </form>
     <hr class="border border-primary border-3 opacity-75">
     <div class="float-end" style="margin-bottom: 20px;">
         <a href="{{ url('/') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
         <button class="btn btn-success place_order" type="submit">Place Order</button>
     </div>
 </div>
+</form>
 <script type="module">
     $(document).ready(function() {
-        $(".remove-from-cart").click(function(e) {
-            e.preventDefault();
-            var ele = $(this);
-            if (confirm("Are you sure want to remove?")) {
+        // Create action for category
+        $('#place_order_form').validate({
+            rules: {
+                firstname: {
+                    required: true,
+                },
+                lastname: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                address1: {
+                    required: true,
+                    address1: true
+                },
+                address2: {
+                    required: true,
+                    address2: true
+                },
+                city: {
+                    required: true,
+                    city: true
+                },
+                state: {
+                    required: true,
+                    state: true
+                },
+                zip: {
+                    required: true,
+                    zip: true
+                },
+                // Add more rules for other form fields as needed
+            },
+            messages: {
+                firstname: {
+                    required: "Please enter your First name",
+                },
+                lastname: {
+                    required: "Please enter your Last name",
+                },
+                email: {
+                    required: "Please enter your Email",
+                },
+                address1: {
+                    required: "Please enter your Address1",
+                },
+                address2: {
+                    required: "Please enter your Address2",
+                },
+                city: {
+                    required: "Please enter your City",
+                },
+                state: {
+                    required: "Please enter your State",
+                },
+                zip: {
+                    required: "Please enter your Zip",
+                },
+                // Add more custom error messages for other form fields
+            },
+            submitHandler: function(form) {
                 $.ajax({
-                    url: "{{ route('remove.from.cart')}}",
-                    method: "DELETE",
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: ele.parents("tr").attr("data-id"),
-                        quantity: ele.parents("tr").find(".quantity").val()
-                    },
+                    url: '/cart/place_order',
+                    type: 'post',
+                    // data: {
+                    //     "_token": "{{ csrf_token() }}",
+                    //     //    "id": id,
+                    //     id: ele.parents("tr").attr("data-id"),
+                    // },
+                    data: $('#place_order_form').serialize(),
                     success: function(response) {
-                        window.location.reload();
+                        // Handle the response
+                        //console.log(response);
+                        alert('Order placed successfully!');
+                        location.reload();
                     }
                 });
             }
         });
-    });
+    })
     $(".update-cart").change(function(e) {
         e.preventDefault();
         var ele = $(this);
@@ -139,25 +196,5 @@
             }
         });
     });
-    $('.place_order').on('click', function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        $.ajax({
-            url: '/cart/place_order',
-            type: 'post',
-            // data: {
-            //     "_token": "{{ csrf_token() }}",
-            //     //    "id": id,
-            //     id: ele.parents("tr").attr("data-id"),
-            // },
-            data: $('#place_order_form').serialize(),
-            success: function(response) {
-                // Handle the response
-                //console.log(response);
-                alert('Order placed successfully!');
-                location.reload();
-            }
-        });
-    })
 </script>
 @endsection
