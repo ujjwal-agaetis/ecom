@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -32,17 +32,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-      $validatedData= $request->validate([
-        'name' => 'required',
-        'slug' => 'required',
-        'description' => 'required',
-        'status' => 'required',
-        'quantity' => 'required|numeric',
-        'category_id' => 'required',
-        'stock' => 'required',
-        'price' => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'slug' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+            'quantity' => 'required|numeric',
+            'category_id' => 'required',
+            'stock' => 'required',
+            'price' => 'required|numeric',
         ]);
-        Product::create($validatedData);
+        if ($validator->fails()) {
+            // Return validation errors
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        Product::create($validator->validated());
         return redirect()->route('products.index')->with('success', 'product created successfully.');
     }
 

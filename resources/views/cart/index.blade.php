@@ -81,7 +81,7 @@
         <div class="col-md-4">
             <label for="state" class="form-label">State</label>
             <select id="state" class="form-select" name="state">
-                <option selected>Choose...</option>
+                <option value="">Choose...</option>
                 <option value="Maharashtra">Maharashtra</option>
             </select>
         </div>
@@ -113,23 +113,18 @@
                 },
                 address1: {
                     required: true,
-                    address1: true
                 },
                 address2: {
                     required: true,
-                    address2: true
                 },
                 city: {
                     required: true,
-                    city: true
                 },
                 state: {
                     required: true,
-                    state: true
                 },
                 zip: {
                     required: true,
-                    zip: true
                 },
                 // Add more rules for other form fields as needed
             },
@@ -144,10 +139,10 @@
                     required: "Please enter your Email",
                 },
                 address1: {
-                    required: "Please enter your Address1",
+                    required: "Address1 field can't be empty",
                 },
                 address2: {
-                    required: "Please enter your Address2",
+                    required: "Address2 field can't be empty",
                 },
                 city: {
                     required: "Please enter your City",
@@ -175,6 +170,18 @@
                         //console.log(response);
                         alert('Order placed successfully!');
                         location.reload();
+                    },
+                    error: function(xhr) {
+                        if (xhr.responseJSON.errors) {
+                        // Handle validation errors
+                        // Display errors to the user
+                        const errorMessages = xhr.responseJSON.errors;
+                        let errors = 'Following errors found : ' + '\n';
+                        for (const field in errorMessages) {
+                            errors += errorMessages[field][0] + '\n'; // Get the first error message
+                        }
+                        alert(errors);
+                        }
                     }
                 });
             }

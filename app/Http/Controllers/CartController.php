@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -49,6 +50,7 @@ class CartController extends Controller
             session()->flash('success', 'Product removed successfully');
         }
     }
+    
     public function update(Request $request)
     {
         if ($request->id && $request->quantity) {
@@ -57,11 +59,26 @@ class CartController extends Controller
             ];
             $cart = Cart::findOrFail($request->id);
             $cart->update($update_data);
-            session()->flash('success', 'Cart updated successfully');
+            session()->flash('success', 'Cart updated successfully');       
         }
     }
     public function place_order(Request $request)
     {
+        // Authenticate form
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required',
+            'address1' => 'required',
+            'address2' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            // Return validation errors
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
         $userId = Auth::id();
         $data = [
             "firstname" => $request->firstname,
