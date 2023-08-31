@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -23,13 +23,15 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data and store the new category in the database
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-
         ]);
-        Category::create($validatedData);
-        return redirect()->route('category.index')->with('success', 'Category created successfully!');
+        if ($validator->fails()) {
+            // Return validation errors
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        Category::create($validator->validated());
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');
     }
 
     public function edit(Request $request, $id)
@@ -57,10 +59,8 @@ class CategoryController extends Controller
         if ($record) {
             // Record exists, delete it
         $record->delete();
-
             return 'Category deleted successfully.';
         } else {
-
             return 'Category not found.';
         }
     }
@@ -71,4 +71,3 @@ class CategoryController extends Controller
         return view('category.product_list',compact('products'));
     }
 }
-

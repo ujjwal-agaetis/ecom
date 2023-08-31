@@ -159,11 +159,6 @@
                 $.ajax({
                     url: '/cart/place_order',
                     type: 'post',
-                    // data: {
-                    //     "_token": "{{ csrf_token() }}",
-                    //     //    "id": id,
-                    //     id: ele.parents("tr").attr("data-id"),
-                    // },
                     data: $('#place_order_form').serialize(),
                     success: function(response) {
                         // Handle the response

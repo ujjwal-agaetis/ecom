@@ -49,7 +49,7 @@ class CartController extends Controller
             $record->delete();
             session()->flash('success', 'Product removed successfully');
         }
-    }
+    } 
     
     public function update(Request $request)
     {
@@ -105,6 +105,18 @@ class CartController extends Controller
                 "order_id" => $order_id,
             ];
             Orderitem::create($order_items);
+            //update quantity logic
+            $product = Product::find($order_items['product_id']);
+             $prev_quantity=$product['quantity'];
+            $item_quantity=$order_items['quantity'];
+            $new_quantity=$prev_quantity- $item_quantity;
+            $update_data = [
+                "quantity" => $new_quantity
+            ];
+            $product = Product::findOrFail($cart_item->product_id);
+            $product->update($update_data);
+
+            // dd($update_quantity);
             //delete entry from cart table
             $cart_item->delete();
         }

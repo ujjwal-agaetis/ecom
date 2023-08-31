@@ -45,7 +45,20 @@
                         // Handle the response
                         //console.log(response);
                         alert('Category created successfully!');
-                        window.location.replace('/category');
+                         window.location.replace('/category');
+                        // location.reload();
+                    },
+                    error: function(xhr) {
+                        if (xhr.responseJSON.errors) {
+                        // Handle validation errors
+                        // Display errors to the user
+                        const errorMessages = xhr.responseJSON.errors;
+                        let errors = 'Following errors found : ' + '\n';
+                        for (const field in errorMessages) {
+                            errors += errorMessages[field][0] + '\n'; // Get the first error message
+                        }
+                        alert(errors);
+                        }
                     }
                 });
             }
