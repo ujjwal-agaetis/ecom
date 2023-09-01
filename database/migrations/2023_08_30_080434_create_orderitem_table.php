@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cart', function (Blueprint $table) {
+        Schema::create('orderitem', function (Blueprint $table) {
             $table->id();
+            // Add the foreign key column
+            $table->unsignedBigInteger('order_id');
             $table->string('item_name');
             $table->integer('quantity')->unsigned();
             $table->integer('price');
+            $table->integer('product_id');
+            
+            // Define the foreign key constraint
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();
 
-             // Add the foreign key column
-             $table->unsignedBigInteger('order_id');
-
-             // Define the foreign key constraint
-             $table->foreign('order_id')->references('id')->on('order');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart');
+        Schema::dropIfExists('orderitem');
     }
 };

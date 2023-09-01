@@ -15,7 +15,6 @@ class Product extends Model
         'quantity',
         'stock',
         'price',
-        'img',
         'category_id',
         // Add more columns as needed
         

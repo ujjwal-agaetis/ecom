@@ -1,102 +1,125 @@
 <?php
 namespace App\Http\Controllers;
-use Cart;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderItem;
 class CartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $cart = session()->get('cart', []);
-        //  dd($cart);
-        // $cart_data = Cart::content();
-        return view('cart/index');
-    }
-
-    // public function create()
-    // {
-    //     $cart = Cart::all();  
-    // }
-    
-    // public function store(Request $request)
-    // {
-    //   $data= $request->validate([
-    //     'name' => 'required',
-    //     'quantity' => 'required',
-    //     'price' => 'required', 
-    //     ]);
-    //     Cart::create($data);
-    //     return redirect()->route('cart.index')->with('success', 'Cart created successfully.');
-    // }
-
-    
-
-    public function add_product_to_cart($id)
-    {
-        $product = Product::findOrFail($id);
-        $cart = session()->get('cart', []);
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-            
+        $session_id = session()->getId();
+        $userId = Auth::id();
+        // info(json_encode($request->session()));
+        if (Auth::check()) {
+            // The user is logged in...
+            $filteredResults = Cart::where('user_id', $userId)->get();
         } else {
-            $cart[$id] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-            ];
+            $filteredResults = Cart::where('session_id', $session_id)->get();
         }
-        session()->put('cart', $cart);
+        return view('cart/index', ['cart' => $filteredResults]);
+    }
+    public function add_product_to_cart(Request $request)
+    {
+        $session_id = $request->session()->getId();  // Get the session ID
+        session(['prev_session_id' => $session_id]);
+        $session_id = session('prev_session_id');
+        $userId = Auth::id();
+        $id = $request->product_id;
+        $product = Product::findOrFail($id);
+        $data = [
+            "product_id" => $product->id,
+            "item_name" => $product->name,
+            "quantity" => $request->quantity,
+            "price" => $product->price,
+            "session_id" => $session_id,
+            "user_id" => $userId
+        ];
+        Cart::create($data);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
-    
     public function remove(Request $request)
     {
-        if($request->id) {
-            $cart = session()->get('cart');
-            // dd($cart);
-            if(isset($cart[$request->id])) {
-                unset($cart[$request->id]);
-                session()->put('cart', $cart);
-            }
+        if ($request->id) {
+            $record = Cart::find($request->id);
+            $record->delete();
             session()->flash('success', 'Product removed successfully');
         }
-    }
-
+    } 
+    
     public function update(Request $request)
     {
-        if($request->id && $request->quantity){
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
+        if ($request->id && $request->quantity) {
+            $update_data = [
+                "quantity" => $request->quantity
+            ];
+            $cart = Cart::findOrFail($request->id);
+            $cart->update($update_data);
+            session()->flash('success', 'Cart updated successfully');       
         }
     }
-
-
     public function place_order(Request $request)
     {
-        $cart = session()->get('cart', []);
-        //  dd($cart);
-        foreach ($cart as $key => $value) {
-             $name=$value['name'];
-             $quantity=$value['quantity'];
-             $price=$value['price'];
-
-             $data = [
-                "$name" => $value['name'],
-                "$quantity" =>$value['quantity'] ,
-                "$price" => $value['price'],
-            ];
-             
-            }
-            return true;   
+        // Authenticate form
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required',
+            'address1' => 'required',
+            'address2' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            // Return validation errors
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+        $userId = Auth::id();
+        $data = [
+            "firstname" => $request->firstname,
+            "lastname" => $request->lastname,
+            "email" => $request->email,
+            "address1" => $request->address1,
+            "address2" => $request->address2,
+            "city" => $request->city,
+            "state" => $request->state,
+            "zip" => $request->zip,
+            "user_id" => $userId
+        ];
+        $order_data = Order::create($data);
+        $order_id = $order_data->id;
+        // Cart data movement to Order_item table
+        $cart_items = cart::where('user_id', $userId)->get();
+        //    dd($cart_items->toarray());
+        foreach ($cart_items as $key => $cart_item) {
+            $order_items = [
+                "product_id" => $cart_item->product_id,
+                "item_name" => $cart_item->item_name,
+                "quantity" => $cart_item->quantity,
+                "price" => $cart_item->price,
+                "order_id" => $order_id,
+            ];
+            Orderitem::create($order_items);
+            //update quantity logic
+            $product = Product::find($order_items['product_id']);
+             $prev_quantity=$product['quantity'];
+            $item_quantity=$order_items['quantity'];
+            $new_quantity=$prev_quantity- $item_quantity;
+            $update_data = [
+                "quantity" => $new_quantity
+            ];
+            $product = Product::findOrFail($cart_item->product_id);
+            $product->update($update_data);
 
+            // dd($update_quantity);
+            //delete entry from cart table
+            $cart_item->delete();
+        }
+        return true;
     }
-
-   
-
-
-
-
-    
+}

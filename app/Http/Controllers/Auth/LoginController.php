@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\Cart;
 
 class LoginController extends Controller
 {
@@ -38,5 +40,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     
-    
+    public function authenticated(Request $request ,$user)
+    {
+        $userId = Auth::id();
+        $session_id=session('prev_session_id');
+         Cart::where('session_id', $session_id)->update(['user_id' => $userId]);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
@@ -14,10 +15,17 @@ use App\Http\Controllers\CartController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::routes();
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/category/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
-Route::group(['middleware' => ['auth']], function () {
+    Auth::routes();
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/categories/{category}/products', [CategoryController::class, 'get_product_list'])->name('category.show');
+     // Cart Routes             
+     Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
+     Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
+     Route::post('add_product_to_cart', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
+     Route::patch('update-cart', [CartController::class, 'update'])->name('update.cart');
+     Route::get('cart_add/', [CartController::class, 'cart_add']);
+     Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove.from.cart');
+     Route::group(['middleware' => ['auth']], function () {
     // Product Routes
     Route::post('/products/destroy', [ProductController::class, 'destroy']);
     Route::post('/products/store', [ProductController::class, 'store']);
@@ -33,11 +41,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/category/update', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/category/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-     // Cart Routes
-    Route::post('cart/place_order', [CartController::class, 'place_order'])->name('cart.index');
-    Route::get('cart/', [CartController::class, 'index'])->name('cart.index');
-    Route::get('add_product_to_cart/{id}', [CartController::class, 'add_product_to_cart'])->name('add.to.cart');
-    Route::patch('update-cart', [CartController::class, 'update'])->name('update.cart');
-    Route::get('cart_add/', [CartController::class, 'cart_add']);
-    Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remove.from.cart');
 });
+
+
+
+
+
+
